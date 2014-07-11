@@ -18,7 +18,7 @@ _colors = {
 }
 
 
-def clrprint(text='  ', tone='white', bg='black', end=''):
+def color_print_name(text='  ', tone='white', bg='black', end=''):
     """
 Return colored text, with colors - strings from _colors dict
 
@@ -36,7 +36,7 @@ Return colored text, with colors - strings from _colors dict
     return _esc + '[01;38;05;{:02d};48;05;{:02d}m'.format(_colors[tone], _colors[bg]) + text + _esc + '[00m' + end
 
 
-def clrprintnum(text='  ', tone=15, bg=None, end=''):
+def color_print_num(text='  ', tone=15, bg=None, end=''):
     """
 Returns colored text, colors are color numbers from weird escape sequences
 
