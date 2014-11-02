@@ -1,3 +1,5 @@
+import sys
+
 __author__ = 'xtotdam'
 
 _esc = chr(0x1b)
@@ -33,7 +35,10 @@ Return colored text, with colors - strings from _colors dict
     :rtype: string
     :return: colored text
     """
-    return _esc + '[01;38;05;{:02d};48;05;{:02d}m'.format(_colors[tone], _colors[bg]) + text + _esc + '[00m' + end
+    if sys.platform.startswith('win'):
+        return text + end
+    else:
+        return _esc + '[01;38;05;{:02d};48;05;{:02d}m'.format(_colors[tone], _colors[bg]) + text + _esc + '[00m' + end
 
 
 def color_print_num(text='  ', tone=15, bg=None, end=''):
@@ -51,12 +56,18 @@ Returns colored text, colors are color numbers from weird escape sequences
     :rtype: string
     :return: colored text
     """
-    if bg:
-        return _esc + '[01;38;05;{:02d};48;05;{:02d}m'.format(tone, bg) + text + _esc + '[00m' + end
+    if sys.platform.startswith('win'):
+        return text + end
     else:
-        return _esc + '[01;38;05;{:02d}m'.format(tone) + text + _esc + '[00m' + end
+        if bg:
+            return _esc + '[01;38;05;{:02d};48;05;{:02d}m'.format(tone, bg) + text + _esc + '[00m' + end
+        else:
+            return _esc + '[01;38;05;{:02d}m'.format(tone) + text + _esc + '[00m' + end
 
 
 def test():
-    for key in _colors.keys():
-        print clrprint(bg=key)
+    if sys.platform.startswith('win'):
+        raise NotImplementedError('Sorry, Windows - colors not implemented yet')
+    else:
+        for key in _colors.keys():
+            print clrprint(bg=key)
